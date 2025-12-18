@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .routers import items
+from .routers import auth
 from .config import get_settings
 from .database import check_db_connection, get_supabase
 
@@ -27,7 +28,10 @@ app.add_middleware(
 )
 # --- End CORS Configuration ---
 
+# --- Routers ---
 app.include_router(items.router)
+app.include_router(auth.router)
+# --- End Routers ---
 
 
 @app.get("/")

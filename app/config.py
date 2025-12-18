@@ -17,6 +17,9 @@ class Settings(BaseSettings):
     # Database Configuration (PostgreSQL direct connection for SQLAlchemy/Alembic)
     database_url: str = ""  # postgresql://user:pass@host:port/db
     
+    # Frontend URL (for OAuth redirects)
+    frontend_url: str = "http://localhost:3000"
+    
     # App Configuration
     app_name: str = "Learn English API"
     debug: bool = False
