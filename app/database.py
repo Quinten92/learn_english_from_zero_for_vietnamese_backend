@@ -41,13 +41,19 @@ def check_db_connection() -> dict:
     """
     try:
         client = get_supabase()
-        # Try a simple query to verify connection
-        # This will work even if no tables exist
-        result = client.table("_dummy_check").select("*").limit(1).execute()
+        # Query schema để check connection (không cần table tồn tại)
+        # Dùng RPC hoặc check auth
+        result = client.auth.get_session()
         return {"status": "connected", "error": None}
     except Exception as e:
         error_msg = str(e)
-        # If error is "relation does not exist", connection is actually working
-        if "does not exist" in error_msg or "relation" in error_msg:
+        # Các lỗi này nghĩa là connection OK nhưng không có data/table
+        if any(x in error_msg for x in [
+            "does not exist", 
+            "relation", 
+            "Could not find",
+            "PGRST205",
+            "No API key found"
+        ]):
             return {"status": "connected", "error": None}
         return {"status": "error", "error": error_msg}

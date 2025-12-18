@@ -126,3 +126,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+prod-ca-2021.crt
