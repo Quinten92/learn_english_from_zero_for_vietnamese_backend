@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .routers import items
+from .config import get_settings
+from .database import check_db_connection, get_supabase
 
 app = FastAPI(
     title="Learn English API",
@@ -43,3 +45,18 @@ def hello():
 def health_check():
     """Health check endpoint"""
     return {"status": "healthy", "service": "learn-english-api"}
+
+
+@app.get("/db-status")
+def database_status():
+    """Check database connection status"""
+    settings = get_settings()
+    db_check = check_db_connection()
+    
+    return {
+        "database": "supabase",
+        "project": "learnenglishzero-stg",
+        "connection": db_check["status"],
+        "error": db_check["error"],
+        "configured": bool(settings.supabase_url and settings.supabase_key)
+    }

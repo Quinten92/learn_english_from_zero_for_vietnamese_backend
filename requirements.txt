@@ -2,3 +2,6 @@ fastapi
 uvicorn[standard]
 pytest
 httpx
+supabase
+python-dotenv
+pydantic-settings
